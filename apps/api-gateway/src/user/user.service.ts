@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { User } from '@prisma/client';
-import { CreateUserDto } from 'libs/common/dto';
+import { CreateUserDto, LoginDTO } from 'libs/common/dto';
 import { USER_PATTERN } from 'libs/common/patterns';
 import { firstValueFrom } from 'rxjs';
 
@@ -11,5 +11,11 @@ export class UserService {
 
     async register(data: CreateUserDto) {
         return firstValueFrom(this.client.send<User>(USER_PATTERN.CREATE, data));
+    }
+
+    async login(input: LoginDTO) {
+        return firstValueFrom(
+            this.client.send(USER_PATTERN.LOGIN, input)
+        );
     }
 }
