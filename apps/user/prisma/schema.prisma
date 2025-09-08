@@ -8,12 +8,76 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement()) @map("id")
-  email     String    @unique @map("email")
-  name      String?   @map("name")
-  password  String?   @map("password")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  id        Int      @id @default(autoincrement()) @map("id")
+  email     String   @unique @map("email")
+  name      String?  @map("name")
+  password  String?  @map("password")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
+}
+
+model Permission {
+  id              Int              @id @default(autoincrement())
+  name            String
+  description     String?
+  rolePermissions RolePermission[]
+  resource        Resource         @relation(fields: [resourceId], references: [id])
+  resourceId      Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("permission")
+}
+
+model Resource {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  description String?
+  permissions Permission[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("resource")
+}
+
+model RolePermission {
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  roleId       Int
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  permissionId Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@id([roleId, permissionId])
+  @@map("roles_permissions")
+}
+
+model Role {
+  id              Int              @id @default(autoincrement())
+  name            String
+  description     String?
+  rolePermissions RolePermission[]
+  department      Department       @relation(fields: [departmentId], references: [hrDepartmentId])
+  departmentId    Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("role")
+}
+
+model Department {
+  id             Int    @id @default(autoincrement())
+  hrDepartmentId Int    @unique
+  roles          Role[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("department")
 }

@@ -11,8 +11,8 @@ export class UserService {
     private readonly prisma: PrismaService,
     private readonly hashService: HashService,
     private readonly tokenService: TokenService,
-  ) { }
-  
+  ) {}
+
   getHello(): string {
     return 'Hello World!';
   }
@@ -75,7 +75,7 @@ export class UserService {
   async updateHashedRefreshToken(id: number, hashedRefreshToken: string) {
     return await this.prisma.user.update({
       where: { id },
-      data: {}
+      data: {},
     });
   }
 }

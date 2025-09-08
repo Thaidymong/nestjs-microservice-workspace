@@ -26,11 +26,10 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Microservice Workshop API Gateway with NestJS')
     .setDescription(
-      'A Dockerized API gateway that unifies and secures communication between microservices, providing a single scalable entry point for the system.'
+      'A Dockerized API gateway that unifies and secures communication between microservices, providing a single scalable entry point for the system.',
     )
     .setVersion('1.0.0')
     .addBearerAuth()
-    // .addTag('cats')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, documentFactory);

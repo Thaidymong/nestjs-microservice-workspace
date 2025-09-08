@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { ResourceService } from './resource.service';
+import { ResourceController } from './resource.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { UserModule } from './user/user.module';
-import { ResourceModule } from './resource/resource.module';
 
 @Module({
   imports: [
@@ -15,10 +15,8 @@ import { ResourceModule } from './resource/resource.module';
         },
       },
     ]),
-    UserModule,
-    ResourceModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [ResourceController],
+  providers: [ResourceService],
 })
-export class GatewayModule {}
+export class ResourceModule {}

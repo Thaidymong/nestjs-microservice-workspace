@@ -7,15 +7,13 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class UserService {
-    constructor(@Inject('USER_SERVICE') private readonly client: ClientProxy) { }
+  constructor(@Inject('USER_SERVICE') private readonly client: ClientProxy) {}
 
-    async register(data: CreateUserDto) {
-        return firstValueFrom(this.client.send<User>(USER_PATTERN.CREATE, data));
-    }
+  async register(data: CreateUserDto) {
+    return firstValueFrom(this.client.send<User>(USER_PATTERN.CREATE, data));
+  }
 
-    async login(input: LoginDTO) {
-        return firstValueFrom(
-            this.client.send(USER_PATTERN.LOGIN, input)
-        );
-    }
+  async login(input: LoginDTO) {
+    return firstValueFrom(this.client.send(USER_PATTERN.LOGIN, input));
+  }
 }
