@@ -78,4 +78,24 @@ export class UserService {
       data: {},
     });
   }
+
+  async findOneById(id: number) {
+    const isUser = await this.prisma.user.findUnique({
+      where: { id: +id },
+    });
+
+    if (!isUser) {
+      throw new RpcException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'Resource not found',
+      });
+    }
+
+    return {
+      name: isUser.name,
+      email: isUser.email ?? '',
+      create_at: isUser.createdAt.toISOString(),
+      update_at: isUser.updatedAt.toISOString(),
+    };
+  }
 }
